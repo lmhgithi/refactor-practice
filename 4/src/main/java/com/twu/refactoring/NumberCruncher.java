@@ -1,5 +1,7 @@
 package com.twu.refactoring;
 
+import java.util.function.Predicate;
+
 public class NumberCruncher {
     private final int[] numbers;
 
@@ -7,35 +9,29 @@ public class NumberCruncher {
         this.numbers = numbers;
     }
 
-    public int countEven() {
+    private int universalCount(Predicate<Integer> pred) {
         int count = 0;
-        for (int number : numbers) {
-            if (number % 2 == 0) count++;
+        for (int num : numbers) {
+            if (pred.test(num)) {
+                count++;
+            }
         }
         return count;
+    }
+
+    public int countEven() {
+        return universalCount((number) -> number % 2 == 0);
     }
 
     public int countOdd() {
-        int count = 0;
-        for (int number : numbers) {
-            if (number % 2 == 1) count++;
-        }
-        return count;
+        return universalCount((number) -> number % 2 == 1);
     }
 
     public int countPositive() {
-        int count = 0;
-        for (int number : numbers) {
-            if (number >= 0) count++;
-        }
-        return count;
+        return universalCount((number) -> number >= 0);
     }
 
     public int countNegative() {
-        int count = 0;
-        for (int number : numbers) {
-            if (number < 0) count++;
-        }
-        return count;
+        return universalCount((number) -> number < 0);
     }
 }
